@@ -4,11 +4,13 @@ const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const path = require('path');
 
-const {Movie} = require('./../models/movie');
-const {Comment} = require('./../models/comment')
-const {mongoose} = require('./../db/mongoose-conf');
+const {Movie} = require('./../models/Movie');
+const {Comment} = require('./../models/Comment')
+const {mongoose} = require('./../db/mongoose');
 
+const site_root = path.resolve(__dirname+'/..');
 
 let app = express();
 const port = process.env.PORT || 3000;
@@ -18,29 +20,34 @@ app.use(bodyParser.json());
 const apiKey = 'd59353b3';
 const omdbUrl = 'http://www.omdbapi.com/?t=';
 
-// add movie
-app.post('/movies', async (request, response) => {
+// main page
+app.get('/', (req, res) => {
+    res.sendFile(`${site_root}/public/index.html`);
+});
 
-    if (!request.body.title) {
-        response.status(400).send('Title is required!');
+// add movie
+app.post('/movies', async (req, res) => {
+
+    if (!req.body.Title) {
+        res.status(400).send('Title is required!');
     } else {
         // check if it's already exist in the database
         const movieAlreadyFound = await Movie.findOne({
-            Title: request.body.title
+            Title: req.body.Title
         });
 
         if (movieAlreadyFound) {
-            response.status(200).send(movieAlreadyFound);
+            res.status(200).send(movieAlreadyFound);
         } else {        
             // replace spaces to '+'
-            const title = request.body.title.split(' ').join('+');
+            const title = req.body.Title.split(' ').join('+');
 
             // fetching movie data
             const movieRes = await axios
                 .get(`${omdbUrl}${title}&plot=full&apikey=${apiKey}`)} 
         
         if (movieRes.data.Response === 'False' && movieRes.data.Error) {
-            response.status(404).send(movieRes.data.Error);
+            res.status(404).send(movieRes.data.Error);
         } else {
             movieRes.data.Response = Boolean(movieRes
                 .data.Response
@@ -50,9 +57,9 @@ app.post('/movies', async (request, response) => {
 
             try {
             const doc = await movieInfo.save();
-                response.send(doc);        
+                res.send(doc);        
             } catch (e) {
-                response.status(400).send(e);
+                res.status(400).send(e);
             }
         }
     }

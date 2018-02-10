@@ -2,8 +2,8 @@ const env = require('./../../config/config');
 
 const {ObjectID} = require('mongodb');
 
-const {Movie} = require('./../../models/movie');
-const {Comment} = require('./../../models/comment');
+const {Movie} = require('./../../models/Movie');
+const {Comment} = require('./../../models/Comment');
 
 movieOneId = new ObjectID();
 movieTwoId = new ObjectID();

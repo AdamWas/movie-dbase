@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const request = require('supertest');
 
 const {app} = require('./../server');
-const {Movie} = require('./../../models/movie');
-const {Comment} = require('./../../models/comment');
+const {Movie} = require('./../../models/Movie');
+const {Comment} = require('./../../models/Comment');
 const {populateComments, populateMovies, movies, comments} =
     require('./seed')
 
