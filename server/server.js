@@ -38,14 +38,15 @@ app.post('/movies', async (req, res) => {
 
         if (movieAlreadyFound) {
             res.status(200).send(movieAlreadyFound);
-        } else {        
-            // replace spaces to '+'
-            const title = req.body.Title.split(' ').join('+');
-
-            // fetching movie data
-            const movieRes = await axios
-                .get(`${omdbUrl}${title}&plot=full&apikey=${apiKey}`)} 
+        }
         
+        // replace spaces to '+'
+        const title = req.body.Title.split(' ').join('+');
+
+        // fetching movie data
+        const movieRes = await axios
+            .get(`${omdbUrl}${title}&plot=full&apikey=${apiKey}`)} 
+    
         if (movieRes.data.Response === 'False' && movieRes.data.Error) {
             res.status(404).send(movieRes.data.Error);
         } else {
