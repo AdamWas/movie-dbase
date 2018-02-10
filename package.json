@@ -1,0 +1,28 @@
+{
+  "name": "movie-dbase",
+  "version": "1.0.0",
+  "description": "Movie Database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "export NODE_ENV=test || SET NODE_ENV=\"test\" && mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
+  },
+  "author": "Adam Wasielewski",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.5",
+    "moment": "^2.20.1",
+    "mongodb": "^3.0.2"
+  },
+  "devDependencies": {
+    "expect": "^22.2.2",
+    "mocha": "^5.0.0",
+    "mongoose": "^5.0.4",
+    "nodemon": "^1.14.12",
+    "supertest": "^3.0.0"
+  }
+}
