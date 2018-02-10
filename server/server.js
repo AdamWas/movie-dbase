@@ -7,7 +7,7 @@ const {ObjectID} = require('mongodb');
 
 const {Movie} = require('./../models/movie');
 const {Comment} = require('./../models/comment')
-const {mongoose} = require('./../db/mongoose');
+const {mongoose} = require('./../db/mongoose-conf');
 
 
 let app = express();
