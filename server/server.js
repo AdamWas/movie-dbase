@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 const path = require('path');
 
-const {Movie} = require('./../models/Movie');
-const {Comment} = require('./../models/Comment')
+const {Movie} = require('./../models/movie');
+const {Comment} = require('./../models/comment')
 const {mongoose} = require('./../db/mongoose');
 
 const site_root = path.resolve(__dirname+'/..');
