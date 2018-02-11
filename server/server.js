@@ -35,20 +35,30 @@ app.post('/movies', async (req, res) => {
         const movieAlreadyFound = await Movie.findOne({
             Title: req.body.Title
         });
-
-        if (movieAlreadyFound) {
-            res.status(200).send(movieAlreadyFound);
-        }
-
+        
         // replace spaces to '+'
         const title = req.body.Title.split(' ').join('+');
 
         // fetching movie data
         const movieRes = await axios
-            .get(`${omdbUrl}${title}&plot=full&apikey=${apiKey}`);
-    
+            .get(`${omdbUrl}${title}&plot=full&apikey=${apiKey}`)
+
         if (movieRes.data.Response === 'False' && movieRes.data.Error) {
             res.status(404).send(movieRes.data.Error);
+        } else if (movieAlreadyFound) {
+
+            movieRes.data.Response = Boolean(movieRes
+                .data.Response
+                .match(/^true$/i));
+
+            try {
+                const doc = await Movie.findOneAndUpdate({
+                    _id: movieAlreadyFound._id
+                }, {$set: movieRes.data}, {new: true});                
+                    res.send(doc);        
+                } catch (e) {
+                    res.status(400).send(e);
+                }
         } else {
             movieRes.data.Response = Boolean(movieRes
                 .data.Response
@@ -76,22 +86,18 @@ app.get('/movies', async (req, res) => {
     }
 });
 
-// fetching all movies (short version)
-// TODO !!!!!
-// app.get('/movies', async (req, res) => {    
-//     try {
-//         movies = await Movie.find({}).populate('Title');
-            
-//             // .project({Title: true});
-//         console.log(movies)
-//         res.status(200).send({movies});
-//     } catch (e) {
-//         res.status(400).send(e);
-//     }
-// });
+// sorted list of movies
+app.get('/movies/sort', async (req, res) => {    
+    try {
+        movies = await Movie.find().sort({Metascore: 'desc'})
+        res.send({movies});
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
 
 // fetching movies by genre
-app.get('/movies/param', async (req, res) => {    
+app.get('/movies/param', async (req, res) => {
     try {
         movies = await Movie
             .find({Genre: { $regex: '.*' + req.query.genre + '.*' }})

@@ -18,7 +18,7 @@ describe('****MOVIES****', () => {
     describe('POST /movies', () => {
         it('should add new movie', (done) => {
             const movie = {
-                Title: 'Test movie'
+                Title: 'Forrest Gump'
             };
 
             request(app)
