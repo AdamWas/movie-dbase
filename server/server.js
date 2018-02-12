@@ -26,11 +26,6 @@ let sendErrMessage = (message) => {
     }
 };
 
-// main page
-app.get('/', (req, res) => {
-    res.sendFile(`${site_root}/public/index.html`);
-});
-
 // add movie
 app.post('/movies', async (req, res) => {
 
