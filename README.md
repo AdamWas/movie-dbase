@@ -2,6 +2,8 @@
 by Adam Wasielewski  
 NodeJS
 
+App on Heroku:  
+[Heroku](https://movie-dbase.herokuapp.com/ "movie-dbase")
 
 ### METHODS
 
