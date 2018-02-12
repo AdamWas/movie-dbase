@@ -15,16 +15,16 @@ ex:
 ```
 
 * `GET /movies`:
-Return all movies from database with all details.
+    * Return all movies from database with all details.
   
 * `GET /movies/sort?Metascore` with sort param:
-Return sorted movie (for now only by Metascore).
+    * Return sorted movie (for now only by Metascore).
 
 * `GET /movies/param?genre` with genre param:
-Return movies with specified genre, ex: Drama, Sci-Fi (case-sensitive)
+    * Return movies with specified genre, ex: Drama, Sci-Fi (case-sensitive)
 
 * `POST /comments`:
-Add comment for specified movie.
+    * Add comment for specified movie.
 ex:
 ```
 {
@@ -35,7 +35,7 @@ ex:
 ```
 
 * `GET /comments`:
-Return all comments for all movies from database
+    * Return all comments for all movies from database
 
 * `GET /comments/movieID`:
-Return all comments for specified movie from database
+    * Return all comments for specified movie from database
