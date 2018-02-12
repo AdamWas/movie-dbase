@@ -20,6 +20,12 @@ app.use(bodyParser.json());
 const apiKey = 'd59353b3';
 const omdbUrl = 'http://www.omdbapi.com/?t=';
 
+let sendErrMessage = (message) => {
+    return {
+        errorMessage: message
+    }
+};
+
 // main page
 app.get('/', (req, res) => {
     res.sendFile(`${site_root}/public/index.html`);
@@ -29,7 +35,7 @@ app.get('/', (req, res) => {
 app.post('/movies', async (req, res) => {
 
     if (!req.body.Title) {
-        res.status(400).send('Title is required!');
+        res.status(400).send(sendErrMessage('Title is required!'));
     } else {
         // check if it's already exist in the database
         const movieAlreadyFound = await Movie.findOne({
@@ -111,7 +117,7 @@ app.get('/movies/param', async (req, res) => {
 app.post('/comments', async (req, res) => {
     const movieId = req.body._movieId;
     if (!ObjectID.isValid(movieId)) {
-        return res.status(404).send('Invalid movie ID!')
+        return res.status(404).send(sendErrMessage('Invalid movie ID!'))
     }
     const movieFound = await Movie.findById(movieId)
         .then((movie) =>  movie);
@@ -128,7 +134,7 @@ app.post('/comments', async (req, res) => {
             res.status(400).send(e);
         } 
     } else {
-        res.status(400).send('Movie not found :(');
+        res.status(400).send(sendErrMessage('Movie not found :('));
     }
 });
 
@@ -146,7 +152,7 @@ app.get('/comments', async (req, res) => {
 app.get('/comments/:movieId', async (req, res) => {
     const movieId = req.params.movieId
     if (!ObjectID.isValid(movieId)) {
-        return res.status(400).send('Invalid movie ID!')
+        return res.status(400).send(sendErrMessage('Invalid movie ID!'))
     }
 
     const movieFound = await Movie.findById(movieId)
@@ -160,7 +166,7 @@ app.get('/comments/:movieId', async (req, res) => {
             res.status(400).send(e);
         }
     } else {
-        res.status(404).send('Movie not found :(');
+        res.status(404).send(sendErrMessage('Movie not found :('));
     }
 });
 
