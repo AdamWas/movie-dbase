@@ -1,5 +1,5 @@
 # Movie Database
-by Adam Wasielewski
+by Adam Wasielewski  
 NodeJS
 
 
